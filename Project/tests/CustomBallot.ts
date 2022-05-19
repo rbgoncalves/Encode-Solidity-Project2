@@ -61,6 +61,11 @@ describe("Ballot", function () {
       expect(Number(ethers.utils.formatEther(postDelegateVotePower))).to.eq(
         BASE_VOTE_POWER
       );
+      const historicVotePower = await tokenContract.getPastVotes(
+        accounts[1].address,
+        2
+      );
+      expect(Number(ethers.utils.formatEther(historicVotePower))).to.eq(0);
     });
   });
 
@@ -72,6 +77,7 @@ describe("Ballot", function () {
       );
       await ballotContract.deployed();
     });
+
     it("has the provided proposals", async () => {
       for (let index = 0; index < PROPOSALS.length; index++) {
         const proposal = await ballotContract.proposals(index);
@@ -99,6 +105,7 @@ describe("Ballot", function () {
           await delegateTx.wait();
         }
       });
+
       describe("when a ballot is created", async () => {
         beforeEach(async () => {
           ballotContract = await ballotFactory.deploy(
@@ -107,6 +114,7 @@ describe("Ballot", function () {
           );
           await ballotContract.deployed();
         });
+
         for (let index = 0; index < ACCOUNTS_FOR_TESTING; index++) {
           describe(`when the account ${index + 1} votes`, async () => {
             const expectedVotes = [0, 0, 0];
@@ -118,6 +126,7 @@ describe("Ballot", function () {
                 await voteTx.wait();
                 expectedVotes[PROPOSAL_CHOSEN[index]] += USED_VOTE_POWER;
               });
+
               it("updates the votes for that proposal", async () => {
                 const votedProposal = await ballotContract.proposals(
                   PROPOSAL_CHOSEN[index]
