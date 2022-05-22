@@ -48,6 +48,8 @@ async function main() {
 
   // *** Mint tokens (vote power) for each of the accounts (voters)***
   await accountAddresses.forEach(async (address) => {
+    console.log(`Minting: ${address}`);
+
     const mintTx = await myTokenContract.mint(address, votingPower);
     await mintTx.wait();
   });
