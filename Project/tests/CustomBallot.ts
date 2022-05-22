@@ -41,6 +41,7 @@ describe("Ballot", function () {
       const preMintVotePower = await tokenContract.getVotes(
         accounts[1].address
       );
+
       expect(preMintVotePower).to.eq(0);
       const mintTx = await tokenContract.mint(
         accounts[1].address,
