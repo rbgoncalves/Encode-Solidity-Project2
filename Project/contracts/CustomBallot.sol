@@ -3,6 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 interface IERC20Votes {
     function getPastVotes(address, uint256) external view returns (uint256);
+//don't work with internal view
 }
 
 contract CustomBallot {
